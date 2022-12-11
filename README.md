@@ -35,3 +35,5 @@ Not explaining the rest, check [my configuration](https://github.com/Skaytacium/
 
 ### And?
 This entire project hurt my bones to make.
+
+Contribute any `compile` verbs if you want, I added one for [jellyfin](https://jellyfin.org/). Or don't, I'll do it myself as always.
