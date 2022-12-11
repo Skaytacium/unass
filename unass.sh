@@ -1,35 +1,27 @@
 #!/bin/sh
 
-#1 - Log
-#2 - Warn
-#3 - Error
-#4 - Heading
-out() {
-	case $2 in
-		"0")
-			echo "\033[4;34m* $1\033[0m"
-			;;
-		"1")
-			echo "\033[4;1;33m** $1\033[0m"
-			;;
-		"2")
-			echo "\033[4;1;31m*** $1\033[0m"
-			exit 1
-			;;
-		"3")
-			echo "\033[4;1;44;30m$1\033[0m"
-			;;
-	esac
+log() {
+	echo "\033[4;34m* $1\033[0m"
+}
+warn() {
+	echo "\033[4;1;33m** $1\033[0m"
+}
+error() {
+	echo "\033[4;1;31m*** $1\033[0m"
+	exit 1
+}
+head() {
+	echo "\033[4;1;44;30m$1\033[0m"
 }
 
 if ! [ -x "./unass.sh" ]; then
-	out "run from root directory" 2
+	error "run from root directory"
 	exit 1
 fi
 ROOT_DIR=$(pwd)
 
 
-out "$USER's system syncer" 3
+head "$USER's system syncer"
 echo
 
 
@@ -37,56 +29,51 @@ echo
 #2 - Name
 #* * Arguments
 run() {
+	[ "$#" -lt 2 ] && (out "wrong no. of arguments" 2)
+
+	VERB="$1"
+	shift 1
+
 	echo
-	out "$1 $2" 3
+	head "$VERB $1"
 
-	if [ -x "$ROOT_DIR/src/$1/$2.sh" ]; then
-		# words need to be split, so don't quote this
-		"$ROOT_DIR/src/$1/$2.sh" $(echo "$@" | sed "s/.*$1 //") \
-			|| out "$1 script for $2 has non-zero exit code" 2
-	elif [ -x "$ROOT_DIR/src/$1/default.sh" ]; then
-		[ -e "$ROOT_DIR/src/$1/$2.sh" ] \
-			&& out "specific $1 script for $2 isn't executable" 2
+	if [ -x "$ROOT_DIR/src/$VERB/$1.sh" ]; then
+		"$ROOT_DIR/src/$VERB/$1.sh" $@ \
+			|| error "$VERB script for $1 has non-zero exit code"
+	elif [ -x "$ROOT_DIR/src/$VERB/default.sh" ]; then
+		[ -e "$ROOT_DIR/src/$VERB/$1.sh" ] \
+			&& error "specific $VERB script for $1 isn't executable"
 
-		out "specific $1 script for $2 doesn't exist" 1
-		out "running default $1 script for $2" 0
+		warn "specific $VERB script for $1 doesn't exist"
+		log "running default $VERB script for $1"
 
-		# words need to be split, so don't quote this
-		"$ROOT_DIR/src/$1/default.sh" $(echo "$@" | sed "s/.*$1 //") \
-			|| out "default $1 script for $2 has non-zero exit code" 2
+		"$ROOT_DIR/src/$VERB/default.sh" $@ \
+			|| error "default $VERB script for $1 has non-zero exit code"
 	else
-		[ -e "$ROOT_DIR/src/$1/default.sh" ] \
-			&& out "default $1 script for $2 isn't executable" 2
+		[ -e "$ROOT_DIR/src/$VERB/default.sh" ] \
+			&& error "default $VERB script for $1 isn't executable"
 
-		out "no $1 script available for $2" 2
+		error "no $VERB script available for $1"
 	fi
 
-	out "finished $2 $1" 3
+	head "finished $1 $VERB"
+}
+
+#1 - File path
+#2 - Verb
+#* * Arguments
+for_files() {
+	[ "$#" -lt 2 ] && (out "wrong no. of arguments" 2)
+
+	FILEPATH="$1"
+	VERB="$2"
+	shift 2
+
+	if [ -d "$FILEPATH" ]; then
+		for FILE in $(find "$FILEPATH" -type f); do run "$VERB" "$FILE" $@; done
+	else
+		run "$VERB" "$FILEPATH" $@ 
+	fi
 }
 
 ### User section
-
-mkdir -p "$HOME/.local/src"
-cd "$HOME/.local/src"
-
-run clone "n" "https://github.com/tj/n"
-cd "n"
-run install "n"
-cd ..
-
-run clone "scs" "https://gitlab.com/dwt1/shell-color-scripts"
-cd "scs"
-run install "scs"
-cd ..
-
-run clone "cpufetch" "https://github.com/dr-noob/cpufetch"
-cd "cpufetch"
-run build "cpufetch"
-run install "cpufetch"
-cd ..
-
-run clone "dwm" "https://git.suckless.org/dwm"
-cd "$HOME/.files"
-run apply "home/skay/.local/src/dwm/dwm.c" "mbp"
-cd "$HOME/.local/src/dwm"
-run build "dwm"
