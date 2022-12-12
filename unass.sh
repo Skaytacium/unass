@@ -14,7 +14,7 @@ head() {
 	echo "\033[4;1;44;30m$1\033[0m"
 }
 
-if ! [ -x "./unass.sh" ]; then
+if ! [ -e "./README.md" ]; then
 	error "run from root directory"
 	exit 1
 fi
@@ -60,21 +60,5 @@ run() {
 	head "finished $1 $VERB"
 }
 
-#1 - File path
-#2 - Verb
-#* * Arguments
-for_files() {
-	[ "$#" -lt 2 ] && (out "wrong no. of arguments" 2)
-
-	FILEPATH="$1"
-	VERB="$2"
-	shift 2
-
-	if [ -d "$FILEPATH" ]; then
-		for FILE in $(find "$FILEPATH" -type f); do run "$VERB" "$FILE" $@; done
-	else
-		run "$VERB" "$FILEPATH" $@ 
-	fi
-}
-
 ### User section
+
