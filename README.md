@@ -37,6 +37,13 @@ You can `run` different `verb`s which have some basic default options:
 
 You can give each `verb` a different action with its name and it will automatically perform that when you `run` it. Check the default `verb`s for what parameters to use with them.
 
+Prefixing the `verb` with space-delimited parameters will pass it as a prefix to the verb, but pass it in the same argument, for eg:  
+```sh
+run build dwm
+run "sudo install" "dwm"
+```
+will run the build script for `dwm` normally and the install script as `sudo install/dwm.sh`.
+
 Not explaining the rest, check [my configuration](https://github.com/Skaytacium/.files).
 
 ### And?

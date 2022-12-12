@@ -31,14 +31,15 @@ echo
 run() {
 	[ "$#" -lt 2 ] && (out "wrong no. of arguments" 2)
 
-	VERB="$1"
-	shift 1
+	$PRE=$(echo "$1" | sed -E 's/[^ ]+$//')
+	$VERB=$(echo "$1" | grep -Eo '[^ ]+$')
+	shift
 
 	echo
 	head "$VERB $1"
 
 	if [ -x "$ROOT_DIR/src/$VERB/$1.sh" ]; then
-		"$ROOT_DIR/src/$VERB/$1.sh" $@ \
+		$PRE "$ROOT_DIR/src/$VERB/$1.sh" $@ \
 			|| error "$VERB script for $1 has non-zero exit code"
 	elif [ -x "$ROOT_DIR/src/$VERB/default.sh" ]; then
 		[ -e "$ROOT_DIR/src/$VERB/$1.sh" ] \
@@ -47,7 +48,7 @@ run() {
 		warn "specific $VERB script for $1 doesn't exist"
 		log "running default $VERB script for $1"
 
-		"$ROOT_DIR/src/$VERB/default.sh" $@ \
+		$PRE "$ROOT_DIR/src/$VERB/default.sh" $@ \
 			|| error "default $VERB script for $1 has non-zero exit code"
 	else
 		[ -e "$ROOT_DIR/src/$VERB/default.sh" ] \
