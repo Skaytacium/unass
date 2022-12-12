@@ -16,20 +16,20 @@ Hell on Earth.
 It uses a bunch of shell scripts and standards. Don't ask for more.
 
 ### Don't care didn't ask, how do I use it?
-You need a **git** repository, with `specific` branches for each system you have and a `main` (names can be whatever) branch that has the files that you want on every system. You can differ files, but you'll have to keep track of that in your repository and script.
+You need a **git** repository, with `specific` branches for each system you have and a `main` (names can be whatever, keep track of it yourself) branch that has the files that you want on every system. You can differ files, but you'll have to keep track of that in your repository and script.
 
-Start editing `unass.sh` (the user section (or not)) with your installation script.
+Clone `unass` in your root configuration. Delete `unass`'s `.git` directory and start editing `unass.sh`.
 
-- You can `run` different `verb`s which have some basic default options.
-	- `apply`: Apply files from your repository to your filesystem, giving more priority to `specific` branches.
-	- `build`/`compile`: Build a repository, defaults to just `make`.
-	- `clone`: Clone or update a respository.
-	- `download`: Download a link.
-	- `extract`: Extract a downloaded archive.
-	- `install`: Install a program, from source or whatever.
-	- `sync`: Sync files from your filesystem to your repository, with user merging same files on `main` and `specific` branches.
+You can `run` different `verb`s which have some basic default options:
+- `apply`: Apply files from your repository to your filesystem, giving more priority to `specific` branches.
+- `build`/`compile`: Build a repository, defaults to just `make`.
+- `clone`: Clone or update a respository.
+- `download`: Download a link.
+- `extract`: Extract a downloaded archive.
+- `install`: Install a program, from source or whatever.
+- `sync`: Sync files from your filesystem to your repository, with user merging same files on `main` and `specific` branches.
 
-You can give each `verb` a different action with its name and it will automatically perform that when you `run` it. Check the default `verb`s for what parameters you are given.
+You can give each `verb` a different action with its name and it will automatically perform that when you `run` it. Check the default `verb`s for what parameters to use with them.
 
 Not explaining the rest, check [my configuration](https://github.com/Skaytacium/.files).
 
