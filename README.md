@@ -16,7 +16,7 @@ You need to make a [store](#glossary). Run this in your store in each [specific 
 ```sh
 curl -L https://raw.githubusercontent.com/Skaytacium/unass/master/install.sh | /bin/sh -
 ```
-Update it the same way.
+Update it the same way. This doesn't tamper with any of your specific verbs and if you delete a verb it won't update it.
 
 ### Usage?
 You can `run` different [verbs](#glossary) which have some basic default options:
