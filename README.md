@@ -60,5 +60,5 @@ Sorry.
 ### Glossary?
 - store: A git repository with a main branch and specific branches. Organized like the linux tree, check [my configuration](https://github.com/Skaytacium/.files).
 - main branch: Universal main branch containing universal files (`~/.tmux.conf`, `.config/nvim`, `.config/kitty`).
-- specb: Machine specific branch for each machine containing files specific to that machine (`/etc/X11/xorg.conf`, `~/.Xresources`, `/etc/udev/rules.d`)..
+- specific branch: Machine specific branch for each machine containing files specific to that machine (`/etc/X11/xorg.conf`, `~/.Xresources`, `/etc/udev/rules.d`)..
 - verbs: folders with a default script for some action (compiling, extracting or downloading) and specific scripts for each item (specific script called `dwm.sh` in the `build` verb folder to build `dwm`).
