@@ -12,14 +12,14 @@
 Its hell on Earth.  
 
 ### Installation?
-You need to make a [store](#Glossary?). Run this in your store in each [specific branch](#Glossary?):  
+You need to make a [store](#glossary). Run this in your store in each [specific branch](#glossary):  
 ```sh
 curl -L https://raw.githubusercontent.com/Skaytacium/unass/master/install.sh | /bin/sh
 ```
 Update it the same way.
 
 ### Usage?
-You can `run` different [verbs](#Glossary?) which have some basic default options:
+You can `run` different [verbs](#glossary) which have some basic default options:
 - `apply`: Apply files from your repository to your filesystem, giving more priority to *specific* branches.
 - `build`/`compile`: Build a repository, defaults to just `make`.
 - `clone`: Clone or update a respository.
