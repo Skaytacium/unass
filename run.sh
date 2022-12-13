@@ -19,7 +19,7 @@ for NAME in $2; do
 		VBD="$ROOT_DIR/verbs/$VERB"
 
 		if [ -x "$VBD/$NAME.sh" ]; then
-			"$VBD/$NAME.sh" "$VBD/default.sh"
+			"$VBD/$NAME.sh" "$VBD/default.sh $NAME"
 		elif [ -x "$VBD/default.sh" ]; then
 			warn "defaulting"
 			"$VBD/default.sh" "$NAME"
