@@ -14,7 +14,7 @@ Its hell on Earth.
 ### Installation?
 You need to make a [store](#glossary). Run this in your store in each [specific branch](#glossary):  
 ```sh
-curl -L https://raw.githubusercontent.com/Skaytacium/unass/master/install.sh | /bin/sh
+curl -L https://raw.githubusercontent.com/Skaytacium/unass/master/install.sh | /bin/sh -
 ```
 Update it the same way.
 
