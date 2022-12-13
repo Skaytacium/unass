@@ -29,7 +29,11 @@ You can `run` different [verbs](#glossary) which have some basic default options
 - `sync`: Sync files from your filesystem to your repository, with user merging same files on `main` and `specific` branches.
 - `service`: Enables a service, [runit](http://smarden.org/runit/) services by default.
 
-Check the scripts for the default verbs to see what they do and parameters they need.
+Check the scripts for the default verbs to see what they do and parameters they need. When `run.sh` runs a script, the following parameters are **always** given:
+- Default
+	1. Name
+- Specific
+	1. Relative path to the default script
 
 Not explaining the rest, check [my configuration](https://github.com/Skaytacium/.files) and figure it out from the examples.
 
@@ -41,13 +45,17 @@ Assume `alias run="$HOME/.files/unass/run.sh"` for all examples.
 # Tries to run `verbs/build/dwm.sh`, if its not available then it runs `verbs/build/default.sh dwm`
 run build dwm
 ```
-- Build and install `dwm` (in order)
+- CLone, build and install `dwm` (in order)
 ```sh
-run "build install" dwm
+run "clone build install" dwm
 ```
 - Download, extract and install `jellyfin`, `dotnet`, and `lua-lsp`
 ```sh
 run "download extract install" "jellyfin dotnet lua-lsp"
+```
+- Specific script for cloning `jellyfin`
+```sh
+"$2" "https://github.com/jellyfin/jellyfin"
 ```
 
 **The specific verbs are not defined, you need to make them yourself to your own liking, thats the entire point.**

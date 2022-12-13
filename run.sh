@@ -17,10 +17,10 @@ for NAME in $2; do
 		log "$VERB $NAME"
 
 		if [ -x "$ROOT_DIR/verbs/$VERB/$NAME.sh" ]; then
-			"$ROOT_DIR/verbs/$VERB/$NAME.sh"
+			"$ROOT_DIR/verbs/$VERB/$NAME.sh" "$ROOT_DIR/verbs/$VERB/default.sh"
 		elif [ -x "$ROOT_DIR/verbs/$VERB/default.sh" ]; then
 			warn "defaulting"
-			"$ROOT_DIR/verbs/$VERB/default.sh"
+			"$ROOT_DIR/verbs/$VERB/default.sh" "$NAME"
 		else
 			error "no script found"
 		fi
