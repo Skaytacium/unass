@@ -16,11 +16,13 @@ for NAME in $2; do
 		echo
 		log "$VERB $NAME"
 
-		if [ -x "$ROOT_DIR/verbs/$VERB/$NAME.sh" ]; then
-			"$ROOT_DIR/verbs/$VERB/$NAME.sh" "$ROOT_DIR/verbs/$VERB/default.sh"
-		elif [ -x "$ROOT_DIR/verbs/$VERB/default.sh" ]; then
+		VBD="$ROOT_DIR/verbs/$VERB"
+
+		if [ -x "$VBD/$NAME.sh" ]; then
+			"$VBD/$NAME.sh" "$VBD/default.sh"
+		elif [ -x "$VBD/default.sh" ]; then
 			warn "defaulting"
-			"$ROOT_DIR/verbs/$VERB/default.sh" "$NAME"
+			"$VBD/default.sh" "$NAME"
 		else
 			error "no script found"
 		fi
