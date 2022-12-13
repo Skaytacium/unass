@@ -15,8 +15,8 @@ fi
 
 for VERB in $VERBS; do
 	[ "$VERB" = "build" ] && ln -sf compile build && continue
-	echo curl -fL "https://raw.githubusercontent.com/Skaytacium/unass/master/verbs/$VERB/default.sh" # > "$FILE"
+	curl -fL "https://raw.githubusercontent.com/Skaytacium/unass/master/verbs/$VERB/default.sh" > "$FILE"
 done
 
-echo curl -fL "https://raw.githubusercontent.com/Skaytacium/unass/master/run.sh" # > "$FILE"
-echo curl -fL "https://raw.githubusercontent.com/Skaytacium/unass/master/out.sh" # > "$FILE"
+curl -fL "https://raw.githubusercontent.com/Skaytacium/unass/master/run.sh" > "$FILE"
+curl -fL "https://raw.githubusercontent.com/Skaytacium/unass/master/out.sh" > "$FILE"
