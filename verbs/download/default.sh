@@ -5,4 +5,4 @@
 
 [ "$#" -eq 1 ] && (echo "no link passed to $1"; exit 1)
 
-wget "$2" -O "$1.arc"
+curl -fL "$2" -o "$1.arc"

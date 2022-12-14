@@ -2,5 +2,13 @@
 
 #1 - File/directory to apply
 
-[ -d "$(dirname "/$1")" ] || mkdir -p "$(dirname "/$1")"
-cp -r "$1" "/$1"
+# store -> unass -> verbs -> apply -> default
+# ..    \  ..    \  ..    \  .
+STORE=$(readlink -f "./../../..")
+
+pwd
+echo $STORE
+readlink -f "$0"
+
+# [ -d "$(dirname "/$1")" ] || mkdir -p "$(dirname "/$1")"
+# cp -r "$STORE/$1" "/$1"
