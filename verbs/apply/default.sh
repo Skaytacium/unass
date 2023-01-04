@@ -4,11 +4,7 @@
 
 # store -> unass -> verbs -> apply -> default
 # ..    \  ..    \  ..    \  .
-STORE=$(readlink -f "./../../..")
+STORE=$(realpath "$(dirname "$(readlink -f "$0")")/../../..")
 
-pwd
-echo $STORE
-readlink -f "$0"
-
-# [ -d "$(dirname "/$1")" ] || mkdir -p "$(dirname "/$1")"
-# cp -r "$STORE/$1" "/$1"
+[ -d "$(dirname "/$1")" ] || mkdir -p "$(dirname "/$1")"
+cp -r "$STORE/$1" "/$1"

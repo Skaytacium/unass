@@ -7,8 +7,7 @@
 
 if [ -d "$1" ]; then
 	cd "$1"
-	(git pull && git submodule update --recursive)
-	cd ..
+	git pull && git submodule update --recursive
 else
 	git clone "$2" "$1"
 fi

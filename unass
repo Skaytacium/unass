@@ -1,0 +1,42 @@
+# Average unass script
+
+set elevate doas
+set store ~/.files
+
+in /opt
+	download extract
+		dotnet ungoogled-chromium lua-lsp
+		for msi
+			discord
+
+in /usr/local/src
+	clone defer install
+		tj/n dwt1/shell-color-scripts
+		defer build
+			Dr-Noob/cpufetch
+			for mac
+				linux-on-mac/mbpfan jellyfin/jellyfin
+			for msi
+				dudik/herbe OpenTabletDriver/OpenTabletDriver
+			apply
+				dwm dmenu
+
+
+in ~/.local/share/nvim/site/pack/packer/start/paq-nvim with --depth 1
+	clone
+		savq/paq-nvim
+	
+service
+	alsa chronyd dcron tlp metalog postfix acpid sshd bluetoothd
+	for mac
+		radeon-profile-daemon mbpfan
+	for msi
+		cupsd
+
+for mac
+	run set_os_efi	
+for msi
+	shell rustup-init -y --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile default
+
+shell sh -c "$(curl -fsSL https//raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
+shell doas usermod -a -G input video audio bluetooth sid
