@@ -21,25 +21,6 @@ dir /usr/local/src
 			apply
 				dwm dmenu
 
-
-dir d
-	branch b
-		smth
-	branch d
-		args doom
-			smth2
-	args bruh
-		smth3
-smth4
-dir d
-	dir x
-		smth5
-			args " bruh damn "
-				smth6
-					branch bruh
-						smth7
-		smth8
-
 dir ~/.local/share/nvim/site/pack/packer/start/paq-nvim args " --depth 1 "
 	clone 
 		savq/paq-nvim

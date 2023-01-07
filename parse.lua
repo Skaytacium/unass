@@ -1,48 +1,41 @@
----@param line string line to parse
----@return string[][] | nil, integer | nil
-return function(line)
-	if #line == 0 then return end
+local prev_depth = 0
 
-	-- Syntax is rigid, so this will always be in the beginning
-	local line, depth = line:gsub("\t", "")
-	---@type string[][]
-	local commands, command = {}, {}
-	---@type string | integer
-	local state = 0
+---@param tokens string[][]
+---@param depth integer
+---@return string[] | nil
+return function(tokens, depth)
+	---@type string[]
+	local items = {}
+	depth = depth + 1
 
-	for word, line_pos in line:gmatch("(%g+)()") do
-		if word == "#" or word:sub(1, 1) == "#" then return end
-
-		if COMMANDS[word] then
-			if state == 0 then state = COMMANDS[word].state end
-			if state == 0 then
-				command = { word, line:sub(line_pos + 1) }
-				table.insert(commands, command)
-				break
-			end
-		end
-
-		if word == "\"" then
-			if state < 0 then state = 0
-			else state = -1 end
-		end
-
-		if state ~= 0 then
-			-- Another check to not add apostrophe as input
-			if state ~= -1 then table.insert(command, word) end
-			state = state - 1
-		end
-
-		if state == 0 then
-			if #command == 0 then
-				if IN_TABLE(VERBS, word .. "/") then command = { "verb", word }
-				elseif word == "defer" then command = { "defer" }
-				else command = { "item", word } end
-			end
-			table.insert(commands, command)
-			command = {}
+	if depth < prev_depth then
+		local i = prev_depth
+		while i > depth do
+			i = i - 1
+			RUNLIST[i] = nil
 		end
 	end
 
-	return commands, depth
+	if not RUNLIST[depth] then RUNLIST[depth] = {} end
+
+	for _, list in ipairs(tokens) do
+		if COMMANDS[list[1]] then
+			local command = table.remove(list, 1)
+
+			local set = COMMANDS[command].callback(list)
+
+			if not set then return end
+			RUNLIST[depth][command] = set
+		elseif list[1] == "item" then
+			table.insert(items, list[2])
+		elseif list[1] == "verb" then
+			if not RUNLIST[depth]["verbs"] then RUNLIST[depth]["verbs"] = {} end
+			table.insert(RUNLIST[depth]["verbs"], list[2])
+		end
+	end
+
+	if DICT_LENGTH(RUNLIST[depth]) == 0 then RUNLIST[depth] = nil end
+	prev_depth = depth
+
+	return items
 end

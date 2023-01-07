@@ -8,8 +8,8 @@ if not script then print("unass script not found"); os.exit(false) end
 
 VERBS = READ_DIR("verbs")
 
-local parse = require("parse")
-local generate = require("generate")
+local lex = require("lexer")
+local tree = require("parse")
 local perform = require("perform")
 
 ---@alias run_entry
@@ -26,8 +26,8 @@ OPTIONS = {
 local line = ""
 repeat
 	local item
-	local tokens, depth = parse(line)
-	if tokens and depth then item = generate(tokens, depth) end
+	local tokens, depth = lex(line)
+	if tokens and depth then item = tree(tokens, depth) end
 	if item then perform(item) end
 	---@diagnostic disable-next-line: need-check-nil
 	line = script:read()
