@@ -3,39 +3,57 @@
 set elevate doas
 set store ~/.files
 
-in /opt
+dir /opt
 	download extract
 		dotnet ungoogled-chromium lua-lsp
-		for msi
+		branch msi
 			discord
 
-in /usr/local/src
+dir /usr/local/src
 	clone defer install
 		tj/n dwt1/shell-color-scripts
 		defer build
 			Dr-Noob/cpufetch
-			for mac
+			branch mac
 				linux-on-mac/mbpfan jellyfin/jellyfin
-			for msi
+			branch msi
 				dudik/herbe OpenTabletDriver/OpenTabletDriver
 			apply
 				dwm dmenu
 
 
-in ~/.local/share/nvim/site/pack/packer/start/paq-nvim with --depth 1
-	clone
+dir d
+	branch b
+		smth
+	branch d
+		args doom
+			smth2
+	args bruh
+		smth3
+smth4
+dir d
+	dir x
+		smth5
+			args " bruh damn "
+				smth6
+					branch bruh
+						smth7
+		smth8
+
+dir ~/.local/share/nvim/site/pack/packer/start/paq-nvim args " --depth 1 "
+	clone 
 		savq/paq-nvim
 	
 service
 	alsa chronyd dcron tlp metalog postfix acpid sshd bluetoothd
-	for mac
+	branch mac
 		radeon-profile-daemon mbpfan
-	for msi
+	branch msi
 		cupsd
 
-for mac
+branch mac
 	run set_os_efi	
-for msi
+branch msi
 	shell rustup-init -y --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile default
 
 shell sh -c "$(curl -fsSL https//raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
