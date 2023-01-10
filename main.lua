@@ -9,11 +9,11 @@ if not script then print("unass script not found"); os.exit(false) end
 VERBS = READ_DIR("verbs")
 
 local lex = require("lexer")
-local tree = require("parse")
+local parse = require("parser")
 local perform = require("perform")
 
 ---@alias run_entry
----| { verbs?: string[], dir?: string, branch?: string, args?: string }
+---| { verbs?: string[], dir?: string, branch?: string, args?: string, defer?: integer }
 ---@type run_entry[]
 RUNLIST = {}
 
@@ -25,10 +25,12 @@ OPTIONS = {
 
 local line = ""
 repeat
-	local item
+	local items
 	local tokens, depth = lex(line)
-	if tokens and depth then item = tree(tokens, depth) end
-	if item then perform(item) end
+
+	if tokens and depth then items = parse(tokens, depth) end
+	if items then perform(items) end
+
 	---@diagnostic disable-next-line: need-check-nil
 	line = script:read()
 until not line

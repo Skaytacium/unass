@@ -16,8 +16,7 @@ return function(line)
 		if COMMANDS[word] then
 			if state == 0 then state = COMMANDS[word].state end
 			if state == 0 then
-				command = { word, line:sub(line_pos + 1) }
-				table.insert(commands, command)
+				table.insert(commands, { word, line:sub(line_pos + 1) })
 				break
 			end
 		end

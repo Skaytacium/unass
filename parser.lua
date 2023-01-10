@@ -29,12 +29,14 @@ return function(tokens, depth)
 		elseif list[1] == "item" then
 			table.insert(items, list[2])
 		elseif list[1] == "verb" then
-			if not RUNLIST[depth]["verbs"] then RUNLIST[depth]["verbs"] = {} end
+			if not RUNLIST[depth].verbs then RUNLIST[depth].verbs = {} end
 			table.insert(RUNLIST[depth]["verbs"], list[2])
+		elseif list[1] == "defer" then
+			if RUNLIST[depth].verbs then RUNLIST[depth].defer = #RUNLIST[depth].verbs + 1
+			else RUNLIST[depth].defer = 1 end
 		end
 	end
 
-	if DICT_LENGTH(RUNLIST[depth]) == 0 then RUNLIST[depth] = nil end
 	prev_depth = depth
 
 	return items

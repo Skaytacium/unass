@@ -1,13 +1,13 @@
 # Average unass script
 
-set elevate doas
-set store ~/.files
+# set elevate doas
+# set store ~/.files
 
-dir /opt
-	download extract
-		dotnet ungoogled-chromium lua-lsp
-		branch msi
-			discord
+# dir /opt
+# 	download extract
+# 		dotnet ungoogled-chromium lua-lsp
+# 		branch msi
+# 			discord
 
 dir /usr/local/src
 	clone defer install
@@ -21,21 +21,21 @@ dir /usr/local/src
 			apply
 				dwm dmenu
 
-dir ~/.local/share/nvim/site/pack/packer/start/paq-nvim args " --depth 1 "
-	clone 
-		savq/paq-nvim
+# dir ~/.local/share/nvim/site/pack/packer/start/paq-nvim args " --depth 1 "
+# 	clone 
+# 		savq/paq-nvim
 	
-service
-	alsa chronyd dcron tlp metalog postfix acpid sshd bluetoothd
-	branch mac
-		radeon-profile-daemon mbpfan
-	branch msi
-		cupsd
+# service
+# 	alsa chronyd dcron tlp metalog postfix acpid sshd bluetoothd
+# 	branch mac
+# 		radeon-profile-daemon mbpfan
+# 	branch msi
+# 		cupsd
 
-branch mac
-	run set_os_efi	
-branch msi
-	shell rustup-init -y --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile default
+# branch mac
+# 	run set_os_efi	
+# branch msi
+# 	shell rustup-init -y --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile default
 
-shell sh -c "$(curl -fsSL https//raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-shell doas usermod -a -G input video audio bluetooth sid
+# shell sh -c "$(curl -fsSL https//raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
+# shell doas usermod -a -G input video audio bluetooth sid

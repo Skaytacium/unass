@@ -48,3 +48,15 @@ function DICT_LENGTH(table)
 
 	return count
 end
+
+---@generic T
+---@param a T[] array to be appended to
+---@param b T[] array to append
+---@return T[] resultant
+function APPEND_ARRAY(a, b)
+	for _, val in ipairs(b) do
+		table.insert(a, val)
+	end
+
+	return a
+end
