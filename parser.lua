@@ -30,7 +30,7 @@ return function(tokens, depth)
 			table.insert(items, list[2])
 		elseif list[1] == "verb" then
 			if not RUNLIST[depth].verbs then RUNLIST[depth].verbs = {} end
-			table.insert(RUNLIST[depth]["verbs"], list[2])
+			table.insert(RUNLIST[depth].verbs, list[2])
 		elseif list[1] == "defer" then
 			if RUNLIST[depth].verbs then RUNLIST[depth].defer = #RUNLIST[depth].verbs + 1
 			else RUNLIST[depth].defer = 1 end

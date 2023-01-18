@@ -4,7 +4,6 @@ require("util")
 require("commands")
 
 local script = io.open("unass", "r")
-if not script then print("unass script not found"); os.exit(false) end
 
 VERBS = READ_DIR("verbs")
 
@@ -13,7 +12,7 @@ local parse = require("parser")
 local perform = require("perform")
 
 ---@alias run_entry
----| { verbs?: string[], dir?: string, branch?: string, args?: string, defer?: integer }
+---| { dir?: string, branch?: string, args?: string, verbs?: string[], depth?: integer }
 ---@type run_entry[]
 RUNLIST = {}
 
