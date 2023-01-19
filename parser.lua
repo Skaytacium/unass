@@ -2,7 +2,7 @@ local prev_depth = 0
 
 ---@param tokens string[][]
 ---@param depth integer
----@return string[] | nil
+---@return string[]?
 return function(tokens, depth)
 	---@type string[]
 	local items = {}
@@ -22,10 +22,8 @@ return function(tokens, depth)
 		if COMMANDS[list[1]] then
 			local command = table.remove(list, 1)
 
-			local set = COMMANDS[command].callback(list)
-
-			if not set then return end
-			RUNLIST[depth][command] = set
+			if COMMANDS[command].callback then COMMANDS[command].callback(list)
+			else RUNLIST[depth][command] = table.concat(list, " ") end
 		elseif list[1] == "item" then
 			table.insert(items, list[2])
 		elseif list[1] == "verb" then

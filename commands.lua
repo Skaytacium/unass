@@ -1,5 +1,5 @@
 ---@alias command
----| { state: number | string, callback: fun(input: string[]): string | nil }
+---| { state: number | string, command?: string, callback?: fun(input: string[]): nil }
 ---@type {[string]: command}
 COMMANDS = {
 	["set"] = {
@@ -23,20 +23,11 @@ COMMANDS = {
 	},
 	["dir"] = {
 		["state"] = 2,
-		["callback"] = function (input)
-			return table.concat(input, " ")
-		end
 	},
 	["branch"] = {
 		["state"] = 2,
-		["callback"] = function (input)
-			return table.concat(input, " ")
-		end
 	},
 	["args"] = {
 		["state"] = 2,
-		["callback"] = function (input)
-			return table.concat(input, " ")
-		end
 	}
 }

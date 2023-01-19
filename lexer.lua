@@ -1,5 +1,5 @@
 ---@param line string line to parse
----@return string[][] | nil, integer | nil
+---@return string[][]?, integer?
 return function(line)
 	if #line == 0 then return end
 

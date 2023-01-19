@@ -48,3 +48,11 @@ function DICT_LENGTH(table)
 
 	return count
 end
+
+---@param path string
+---@param dir? boolean
+---@return boolean exists
+function INODE_EXISTS(path, dir)
+	local _, _, exists = os.execute("test " .. (dir and "-d " or " -f ") .. path)
+	return exists == 0
+end

@@ -13,19 +13,18 @@ local function handle_verbs(verbt, dverbt, verbs, defer)
 	end
 end
 
----@param runlist run_entry[]
----@return run_entry combined
-local function merge_runlist(runlist)
+---@return run_entry sanitized
+return function()
 	---@type run_entry
 	local res = {}
 	---@type string[]
 	local verbs, dverbs = {}, {}
 
-	for _, depth in ipairs(runlist) do
+	for _, depth in ipairs(RUNLIST) do
 		for command, val in pairs(depth) do
 			if command == "verbs" then
 				handle_verbs(verbs, dverbs, depth.verbs, depth["defer"])
-			else res[command] = val end
+			elseif command ~= "defer" then res[command] = val end
 		end
 	end
 
@@ -36,18 +35,4 @@ local function merge_runlist(runlist)
 	res.verbs = verbs
 
 	return res
-end
-
----@param items string[] items to perform
----@return boolean success if item was performed successfully
-return function(items)
-	for _, item in ipairs(items) do
-		print(item)
-		local runlist = merge_runlist(RUNLIST)
-		dump(runlist)
-		-- do stuff with stuff
-		print "---\n"
-	end
-
-	return true
 end
