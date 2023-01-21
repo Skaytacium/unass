@@ -34,7 +34,7 @@ return function(line)
 
 		if state == 0 then
 			if #command == 0 then
-				if IN_TABLE(VERBS, word .. "/") then command = { "verb", word }
+				if FIND_IN_TABLE(VERBS, word .. "/") then command = { "verb", word }
 				elseif word == "defer" then command = { "defer" }
 				else command = { "item", word } end
 			end

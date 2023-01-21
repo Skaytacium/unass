@@ -23,7 +23,7 @@ return function()
 	for _, depth in ipairs(RUNLIST) do
 		for command, val in pairs(depth) do
 			if command == "verbs" then
-				handle_verbs(verbs, dverbs, depth.verbs, depth["defer"])
+				handle_verbs(verbs, dverbs, depth.verbs, depth.defer)
 			elseif command ~= "defer" then res[command] = val end
 		end
 	end

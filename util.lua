@@ -1,19 +1,15 @@
----@param tab table table to compare in
----@param cmp string value to compare to
----@param key boolean? check if it is present as a key
----@return boolean
-function IN_TABLE(tab, cmp, key)
-	if key then
-		for k in pairs(tab) do
-			if k == cmp then return true end
-		end
-	else
-		for _, v in ipairs(tab) do
-			if v == cmp then return true end
-		end
+---@generic P, Q
+---@param tab table<Q, P>
+---@param val P | Q
+---@param key boolean?
+---@return P | Q
+function FIND_IN_TABLE(tab, val, key)
+	for k, v in pairs(tab) do
+		if key and k == val then return v
+		elseif v == val then return k end
 	end
 
-	return false
+	return nil
 end
 
 ---@param dir string path to directory
@@ -36,23 +32,9 @@ function READ_DIR(dir, params)
 	return temp
 end
 
----@param table table<any, any>
----@return integer
-function DICT_LENGTH(table)
-	if not table then return 0 end
-
-	local count = 0
-	for _ in pairs(table) do
-		count = count + 1
-	end
-
-	return count
-end
-
 ---@param path string
 ---@param dir? boolean
 ---@return boolean exists
 function INODE_EXISTS(path, dir)
-	local _, _, exists = os.execute("test " .. (dir and "-d " or " -f ") .. path)
-	return exists == 0
+	return os.execute("test " .. (dir and "-d " or " -f ") .. path) == 0
 end
