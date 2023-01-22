@@ -11,7 +11,7 @@ return function(line)
 	local state = 0
 
 	for word, line_pos in line:gmatch("(%g+)()") do
-		if word == "#" or word:sub(1, 1) == "#" then return end
+		if word == "#" or word:sub(1, 1) == "#" then return commands, depth end
 
 		if COMMANDS[word] then
 			if state == 0 then state = COMMANDS[word].state end

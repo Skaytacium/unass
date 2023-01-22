@@ -2,10 +2,22 @@
 ---@param dir string?
 ---@param args string?
 return function(item, dir, args)
-	print("extract default")
-	print(item)
-	print(dir)
-	print(args)
+	if not dir or dir == "" then
+		P("1;31", "no directory to install " .. item .. " specified")
+		return
+	end
+	if not INODE_EXISTS(dir .. "/" .. item) then
+		P("1;31", item .. " does not exist at " .. dir)
+		return
+	end
+
+	P("1;34", "installing " .. item .. " from source")
+
+	TRY_UNTIL(
+		{
+			("cd %s; ")
+		}
+	)
 end
 
 -- mkdir "$1"

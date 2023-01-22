@@ -5,11 +5,13 @@ return function(item)
 		return
 	end
 
-	P("34;1", "servicing " .. item)
-	if os.execute(('ln -sf "/etc/sv/%s" "/var/service"'):format(item)) ~= 0 then
-		P("32;1", "using root to service " .. item)
-		os.execute((OPTIONS.elevate .. ' ln -sf "/etc/sv/%s" "/var/service"'):format(item))
-	end
-
-	P("34;1", "serviced " .. item)
+	TRY_UNTIL({
+		('ln -sf "/etc/sv/%s" "/var/service"'):format(item),
+		"couldn't service " .. item .. " as user, elevating",
+		"serviced " .. item .. " as user"
+	}, {
+		('%s ln -sf "/etc/sv/%s" "/var/service"'):format(OPTIONS.elevate, item)
+		"couldn't service " .. item,
+		"serviced " .. item .. " as root"
+	})
 end

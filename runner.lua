@@ -21,7 +21,6 @@ return function(item, runlist)
 			else require(("verbs.%s.default"):format(verb))(item, runlist.dir, runlist.args) end
 		else require(("verbs.%s.%s"):format(verb, item))(item, runlist.dir, runlist.args) end
 	end
-	print()
 
 	return true
 end

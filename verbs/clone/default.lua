@@ -1,11 +1,21 @@
----@param item string
----@param dir string?
+---@param repo string
+---@param dir string
 ---@param args string?
-return function(item, dir, args)
-	print("clone default")
-	print(item)
-	print(dir)
-	print(args)
+return function(repo, dir, args)
+	local remote = "https://%s.com/" .. repo
+
+	if #TRY_UNTIL({
+		"curl -fL https://github.com/" .. repo .. " >/dev/null 2>&1",
+		repo .. " not available on GitHub, trying GitLab",
+		"using GitHub for " .. repo
+	}, {
+		"curl -fL https://gitlab.com/" .. repo .. " >/dev/null 2>&1",
+		repo .. " not available on GitLab",
+		"using GitLab for " .. repo
+	}) == 1 then remote = remote:format("github")
+	else remote = remote:format("gitlab") end
+
+	print(remote:match("[^/]+$"))
 end
 
 -- if [ -d "$1" ]; then

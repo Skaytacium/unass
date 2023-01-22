@@ -1,4 +1,3 @@
--- dump = require "pl.pretty".dump
 ---@type {[string]: string}
 OPTIONS = {
 	["elevate"] = "sudo",
