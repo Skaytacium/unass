@@ -1,7 +1,7 @@
----@type {[string]: string}
 OPTIONS = {
-	["elevate"] = "sudo",
-	["store"] = "~/store"
+	elevate = "sudo",
+	store = "~/store",
+	branch = ""
 }
 
 -- I know util is bad practice, but it really is util
@@ -28,6 +28,16 @@ local lex = require("lexer")
 local parse = require("parser")
 local sanitize = require("sanitizer")
 local run = require("runner")
+
+local parser = require("argparse")("unass")
+parser:argument("branch", "branch that current machine uses")
+parser:mutex(
+	parser:flag("-s --sync", "sync the store from the system (system -> store)"),
+	parser:flag("-a --apply", "apply the store to the system (store -> system)")
+)
+
+ARG = parser:parse()
+OPTIONS.branch = ARG.branch
 
 ---@alias run_entry
 ---| { dir?: string, branch?: string, args?: string, verbs?: string[], defer?: integer }

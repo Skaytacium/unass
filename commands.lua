@@ -1,5 +1,5 @@
 ---@alias command
----| { state: number | string, command?: string, callback?: fun(input: string[]): nil }
+---| { state: number, command?: string, callback?: fun(input: string[]): nil }
 ---@type {[string]: command}
 COMMANDS = {
 	set = {

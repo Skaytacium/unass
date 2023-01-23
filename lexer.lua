@@ -7,7 +7,7 @@ return function(line)
 	local line, depth = line:gsub("\t", "")
 	---@type string[][]
 	local commands, command = {}, {}
-	---@type string | integer
+	---@type integer
 	local state = 0
 
 	for word, line_pos in line:gmatch("(%g+)()") do
