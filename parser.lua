@@ -24,11 +24,14 @@ return function(tokens, depth)
 
 			if COMMANDS[command].callback then COMMANDS[command].callback(list)
 			else RUNLIST[depth][command] = table.concat(list, " ") end
+
 		elseif list[1] == "item" then
 			table.insert(items, list[2])
+
 		elseif list[1] == "verb" then
 			if not RUNLIST[depth].verbs then RUNLIST[depth].verbs = {} end
 			table.insert(RUNLIST[depth].verbs, list[2])
+
 		elseif list[1] == "defer" then
 			if RUNLIST[depth].verbs then RUNLIST[depth].defer = #RUNLIST[depth].verbs + 1
 			else RUNLIST[depth].defer = 1 end

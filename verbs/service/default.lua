@@ -5,6 +5,8 @@ return function(item)
 		return
 	end
 
+	P("1;34", "servicing " .. item)
+
 	TRY_UNTIL({
 		('ln -sf "/etc/sv/%s" "/var/service"'):format(item),
 		"couldn't service " .. item .. " as user, elevating",

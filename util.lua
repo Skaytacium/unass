@@ -77,3 +77,19 @@ function TRY_UNTIL(...)
 
 	return codes
 end
+
+function CREATE_DIR_OR_FAIL(dir)
+	local codes = TRY_UNTIL({
+		"mkdir -p " .. dir,
+		"couldn't create " .. dir .. " as user, elevating",
+		"created " .. dir .. " as user"
+	}, {
+		OPTIONS.elevate .. " mkdir -p " .. dir,
+		"couldn't create " .. dir .. " as root",
+		"created " .. dir .. " as root"
+	})
+
+	if #codes > 1 and codes[2] ~= 0 then
+		error("couldn't create directory " .. dir)
+	end
+end

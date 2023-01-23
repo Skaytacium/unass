@@ -10,10 +10,9 @@ return function(item, dir, link)
 		P("1;31", "no link to download " .. item .. " specified")
 		return
 	end
-	if not INODE_EXISTS(dir, true) then
-		P("1;31", dir .. " does not exist")
-		return
-	end
+	if not INODE_EXISTS(dir, true) then CREATE_DIR_OR_FAIL(dir) end
+
+	P("34;1", "downloading " .. item)
 
 	TRY_UNTIL({
 		('cd %s; curl -fL "%s" -o "%s.arc"'):format(dir, link, item),
