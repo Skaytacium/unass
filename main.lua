@@ -8,8 +8,6 @@ OPTIONS = {
 require("util")
 require("commands")
 
-local script = io.open("unass", "r")
-
 VERBS = READ_DIR("verbs")
 
 -- 1: **bold**, 2: <sup>dim</sup>, 3: *italic*, 4: <u>uline</u>, 5: blinking, 7: inverse, 8: hidden, 9: ~~strike~~  
@@ -28,16 +26,11 @@ local lex = require("lexer")
 local parse = require("parser")
 local sanitize = require("sanitizer")
 local run = require("runner")
+local args = require("arguments")
 
-local parser = require("argparse")("unass")
-parser:argument("branch", "branch that current machine uses")
-parser:mutex(
-	parser:flag("-s --sync", "sync the store from the system (system -> store)"),
-	parser:flag("-a --apply", "apply the store to the system (store -> system)")
-)
+OPTIONS.branch = args.branch
 
-ARG = parser:parse()
-OPTIONS.branch = ARG.branch
+local script = io.open(args.script and args.script or "unass", "r")
 
 ---@alias run_entry
 ---| { dir?: string, branch?: string, args?: string, verbs?: string[], defer?: integer }
