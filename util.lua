@@ -1,11 +1,11 @@
 ---@generic P, Q
 ---@param tab table<Q, P>
 ---@param val P | Q
----@param key boolean?
+---@param val_is_key boolean?
 ---@return P | Q
-function FIND_IN_TABLE(tab, val, key)
+function FIND_IN_TABLE(tab, val, val_is_key)
 	for k, v in pairs(tab) do
-		if key and k == val then return v
+		if val_is_key and k == val then return v
 		elseif v == val then return k end
 	end
 
@@ -45,7 +45,7 @@ function DUMP(value, depth)
 	depth = depth and depth or ""
 
 	if type(value) ~= "table" then
-		print(value .. "\t not a table")
+		print(("%s\tnot a table" ):format(value))
 	else
 		print(depth .. "{")
 		for k, v in pairs(value) do
@@ -56,7 +56,7 @@ function DUMP(value, depth)
 	end
 end
 
----@param ... string[]
+---@param ... string[] command, error message, success message
 ---@return integer[]
 function TRY_UNTIL(...)
 	---@type integer[]
@@ -92,4 +92,18 @@ function CREATE_DIR_OR_FAIL(dir)
 	if #codes > 1 and codes[2] ~= 0 then
 		error("couldn't create directory " .. dir)
 	end
+end
+
+---@param path string?
+---@return string branch
+function GET_DEFAULT_BRANCH(path)
+	local remote = io.popen(
+		("cd %s; git remote show")
+		:format(path and path or OPTIONS.store)
+	):read()
+
+	return io.popen(
+		("cd %s; git remote show %s | awk '/HEAD branch/ {print $NF}'")
+		:format(path and path or OPTIONS.store, remote)
+	):read()
 end

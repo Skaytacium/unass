@@ -2,7 +2,7 @@
 ---@param dir string
 ---@param args string?
 return function(item, dir, args)
-	if not dir or dir == "" then
+	if not dir then
 		P("1;31", "no directory to extract " .. item .. " specified")
 		return
 	end
@@ -20,8 +20,9 @@ return function(item, dir, args)
 	else command = 'tar -xf "%s.arc" -C "%s"' end
 
 	command = command:format(item)
+	args = args and args or ""
 
-	TRY_UNTIL({
+	return FIND_IN_TABLE(TRY_UNTIL({
 		("cd %s; %s %s"):format(dir, command, args),
 		"couldn't extract " .. item .. " as user, elevating",
 		"extracted " .. item .. " as user"
@@ -29,5 +30,5 @@ return function(item, dir, args)
 		("cd %s; %s %s %s"):format(dir, OPTIONS.elevate, command, args),
 		"couldn't extract " .. item .. " as root",
 		"extracted " .. item .. " as root"
-	})
+	}), 0)
 end

@@ -15,11 +15,13 @@ return function(item, runlist)
 	end
 
 	for _, verb in ipairs(runlist.verbs) do
-		if not INODE_EXISTS(("verbs/%s/%s.lua"):format(verb, item)) then
-			if not INODE_EXISTS(("verbs/%s/default.lua"):format(verb)) then return false
-
-			else require(("verbs.%s.default"):format(verb))(item, runlist.dir, runlist.args) end
-		else require(("verbs.%s.%s"):format(verb, item))(item, runlist.dir, runlist.args) end
+		if INODE_EXISTS(("verbs/%s/%s.lua"):format(verb, item)) then
+			if not require(("verbs.%s.%s"):format(verb, item))(item, runlist.dir, runlist.args) then break end
+		elseif INODE_EXISTS(("verbs/%s/default.lua"):format(verb)) then
+			if not require(("verbs.%s.default"):format(verb))(item, runlist.dir, runlist.args) then break end
+		else
+			return false
+		end
 	end
 
 	return true

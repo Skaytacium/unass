@@ -1,7 +1,6 @@
 OPTIONS = {
 	elevate = "sudo",
-	store = "~/store",
-	branch = ""
+	store = "~/store"
 }
 
 -- I know util is bad practice, but it really is util

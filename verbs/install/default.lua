@@ -2,7 +2,7 @@
 ---@param dir string
 ---@param args string?
 return function(item, dir, args)
-	if not dir or dir == "" then
+	if not dir then
 		P("1;31", "no directory to install " .. item .. " specified")
 		return
 	end
@@ -12,14 +12,15 @@ return function(item, dir, args)
 	end
 
 	P("1;34", "installing " .. item)
+	args = args and args or ""
 
-	TRY_UNTIL({
+	return FIND_IN_TABLE(TRY_UNTIL({
 		("cd %s; make install %s"):format(dir .. "/" .. item, args),
 		"couldn't install " .. item .. " as user, elevating",
 		"installed " .. item .. " as user"
 	}, {
-		("cd %s; %s make install %s"):format(dir .. "/" .. item, OPTIONS.elevate, args)
+		("cd %s; %s make install %s"):format(dir .. "/" .. item, OPTIONS.elevate, args),
 		"couldn't install " .. item .. " as root",
 		"installed " .. item .. " as root"
-	})
+	}), 0)
 end
