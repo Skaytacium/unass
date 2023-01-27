@@ -1,1 +1,6 @@
+# Stuff for testing
 *test*
+
+# Don't add custom verbs here, define them yourself
+# verbs/*/*
+# !default.lua
