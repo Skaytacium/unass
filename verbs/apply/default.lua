@@ -37,6 +37,10 @@ end
 ---@param inode string
 ---@param branch string?
 return function(inode, branch)
+	if not inode then
+		P("31;1", "no file/directory to apply specified")
+	end
+
 	branch = branch and branch or OPTIONS.branch
 
 	apply(inode, GET_DEFAULT_BRANCH())
