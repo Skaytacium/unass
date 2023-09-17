@@ -1,14 +1,12 @@
 # Nouns
 ## What?
-
-The thing itself that a [verb](verb) will be performing on. This is the most basic element in a script. It starts with an alphanumeric character (regex \w) and can contain anything after that.
+Atomic, they are the most basic item. An item that will be worked on by verbs. It must start with an alphanumeric character (regex `\w`) and can contain anything after that.
 
 ## How?
-
-```r
-+some_verb
+```
++someverb
 	noun1 noun2
-	+some_other_verb
+	+someotherverb
 		noun3 noun4
 ```
 

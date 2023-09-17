@@ -13,13 +13,10 @@ and i'm like shit and love reinveting stuff
 [^1]: [chezmoi](https://www.chezmoi.io) has the capacity to do that, but it is [strongly discouraged](https://www.chezmoi.io/user-guide/frequently-asked-questions/design/#can-i-use-chezmoi-to-manage-files-outside-my-home-directory).
 
 ### Wait, Lua? and dash??
-
 um
 
 ### How?
-
 Check out [the docs](docs/) and [my script as an example](unass).
 
 ### And?
-
 This project uses the fantastic [Logos](https://github.com/maciejhirsz/logos) for lexing since I don't want to make a lexer in rust

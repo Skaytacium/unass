@@ -6,9 +6,9 @@ pub enum Token<'a> {
 	Line,
 	#[token("\t")]
 	Indent,
-	#[regex(r"[/~][\w.\-/]+", |lex| lex.slice())]
+	#[regex(r"[/~][\w.\-_/]+", |lex| lex.slice())]
 	Path(&'a str),
-	#[regex(r"@[\w.\-/]+", |lex| &lex.slice()[1..])]
+	#[regex(r"@[\w.\-_/]+", |lex| &lex.slice()[1..])]
 	Branch(&'a str),
 	#[regex(r#""([^"]|\\")+""#, |lex| &lex.slice()[1..lex.slice().len() - 1])]
 	Argument(&'a str),
