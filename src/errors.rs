@@ -1,62 +1,53 @@
-enum Severity {
+use std::error::Error;
+use std::{fmt, println};
+
+pub enum SeverityLevel {
 	Warning,
 	Fatal,
 }
 
-pub enum IOError {
-	Script,
+pub trait Severity {
+	fn severity(&self) -> SeverityLevel;
 }
-pub enum LexerError<'a> {
-	Token(&'a str),
-}
-pub enum ParserError<'a> {
+
+// Currently a seperation for lexer/runner/execution error enums isn't needed
+#[derive(Debug)]
+pub enum ErrorKind {
+	Token,
 	InvalidKey,
-	AdjectiveWithoutNoun(&'a str),
+	AdjectiveWithoutNoun,
 }
 
-pub enum Error<'a> {
-	Lexer(LexerError<'a>),
-	IOError(IOError),
-	Parser(ParserError<'a>),
-}
-
-pub fn add_error(error: Error) {
-	match error {
-		Error::Lexer(suberror) => match suberror {
-			LexerError::Token(token) => handle_error(
-				"lexer",
-				format!("unrecognized token: {}", token),
-				Severity::Fatal,
-			),
-		},
-		Error::IOError(suberror) => match suberror {
-			IOError::Script => handle_error(
-				"io",
-				"unass script not found".to_string(),
-				Severity::Fatal,
-			),
-		},
-		Error::Parser(suberror) => match suberror {
-			ParserError::InvalidKey => handle_error(
-				"parser",
-				"invalid configuration key".to_string(),
-				Severity::Fatal,
-			),
-			ParserError::AdjectiveWithoutNoun(adj) => handle_error(
-				"parser",
-				format!("adjective isn't describing any noun: {}", adj),
-				Severity::Fatal,
-			),
-		},
+impl fmt::Display for ErrorKind {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+		match self {
+			ErrorKind::Token => f.write_str("unrecognized token"),
+			ErrorKind::AdjectiveWithoutNoun => f.write_str("no noun to describe"),
+			ErrorKind::InvalidKey => f.write_str("invalid key"),
+		}
 	}
 }
+impl Severity for ErrorKind {
+	fn severity(&self) -> SeverityLevel {
+		SeverityLevel::Fatal
+	}
+}
+impl Severity for std::io::Error {
+	fn severity(&self) -> SeverityLevel {
+		SeverityLevel::Fatal
+	}
+}
+impl Error for ErrorKind {}
 
-fn handle_error(scope: &str, message: String, severity: Severity) {
-	match severity {
-		Severity::Warning => println!("\x1B[1;33mwarning({}): {}\x1B[0m", scope, message),
-		Severity::Fatal => {
-			println!("\x1B[1;31mfatal({})@line: {}\x1B[0m", scope, message);
-			std::process::exit(1);
+// Exit by yourself if the error is fatal, since handling this here would cause
+// a !|() return type, which isn't possible.
+pub fn add_error(error: (impl Error + Severity), at: &str, line: usize) {
+	match error.severity() {
+		SeverityLevel::Fatal => {
+			println!("\x1B[1;31mfatal ({}) `{}`: {}\x1B[0m", line, at, error);
+		}
+		SeverityLevel::Warning => {
+			println!("\x1B[1;33mwarn ({}) `{}`: {}\x1B[0m", line, at, error);
 		}
 	}
 }

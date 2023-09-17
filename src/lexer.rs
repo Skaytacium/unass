@@ -16,17 +16,16 @@ pub enum Token<'a> {
 	Verb(&'a str),
 	#[regex(r"-[a-z]+", |lex| &lex.slice()[1..])]
 	Defer(&'a str),
-	#[regex(r"=\S+", |lex| &lex.slice()[1..])]
-	Value(&'a str),
 	// Should override the rest
-	#[regex(r"!.+", |lex| &lex.slice()[1..], priority=100)]
+	#[regex(r"!.+", |lex| &lex.slice()[1..])]
 	Shell(&'a str),
-	#[regex(r"\w[^\s,=]+", |lex| lex.slice())]
+	#[regex(r"\w[^\s]*", |lex| lex.slice())]
 	Noun(&'a str),
-	#[regex(r",\S+", |lex| &lex.slice()[1..])]
+	#[regex(r",[^\s#]+", |lex| &lex.slice()[1..])]
 	Adjective(&'a str),
 	#[error]
-	#[regex(r"\#.+", logos::skip)]
+	#[regex(r"#.+", logos::skip)]
 	#[token(" ", logos::skip)]
+	#[token("\r", logos::skip)]
 	Error
 }
