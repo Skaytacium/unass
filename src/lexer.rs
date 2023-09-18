@@ -16,7 +16,7 @@ pub enum Token<'a> {
 	Verb(&'a str),
 	#[regex(r"-[a-z]+", |lex| &lex.slice()[1..])]
 	Defer(&'a str),
-	// Should override the rest
+	// should override the rest
 	#[regex(r"!.+", |lex| &lex.slice()[1..])]
 	Shell(&'a str),
 	#[regex(r"\w[^\s]*", |lex| lex.slice())]

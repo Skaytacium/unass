@@ -1,9 +1,9 @@
-# Scripting
-## What?
+# scripting
+## what?
 unass scripting documentation
 
-## Why?
+## why?
 bro how you gonna use it without scripting
 
-## How?
-The structure and syntax is based off grammar. There are nouns, verbs, adverbs and adjectives. I swear its not an "English Language" class. Start with [nouns](nouns).
+## how?
+The structure and syntax is based off grammar. There are nouns, verbs, adverbs and adjectives. I swear it's not an english language class. Start with [nouns](nouns).

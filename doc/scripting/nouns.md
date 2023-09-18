@@ -1,8 +1,8 @@
-# Nouns
-## What?
-Atomic, they are the most basic item. An item that will be worked on by verbs. It must start with an alphanumeric character (regex `\w`) and can contain anything after that.
+# nouns
+## what?
+The most basic item that will be worked on by verbs. It must start with an alphanumeric character (regex `\w`) and can contain anything after that.
 
-## How?
+## how?
 ```
 +someverb
 	noun1 noun2

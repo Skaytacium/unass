@@ -10,7 +10,7 @@ pub trait Severity {
 	fn severity(&self) -> SeverityLevel;
 }
 
-// Currently a seperation for lexer/runner/execution error enums isn't needed
+// currently a seperation for lexer/runner/execution error enums isn't needed
 #[derive(Debug)]
 pub enum ErrorKind {
 	Token,
@@ -39,8 +39,8 @@ impl Severity for std::io::Error {
 }
 impl Error for ErrorKind {}
 
-// Exit by yourself if the error is fatal, since handling this here would cause
-// a !|() return type, which isn't possible.
+// exit by yourself if the error is fatal, since handling this here would cause
+// a !|() return type, which isn't possible
 pub fn add_error(error: (impl Error + Severity), at: &str, line: usize) {
 	match error.severity() {
 		SeverityLevel::Fatal => {

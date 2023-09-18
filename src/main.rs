@@ -77,14 +77,14 @@ fn main() {
 			if depth == 0 {
 				act.clear()
 			}
-			// Erase act[depth]+1
+			// erase act[depth]+1
 			resize(&mut act, depth);
 			resize(&mut act, depth + 1);
 			resized = true;
 		}
 		match token {
 			Token::Line => {
-				// Toggle for resizing (clearing) to happen only after indents
+				// toggle for resizing (clearing) to happen only after indents
 				resized = false;
 				lines += 1;
 				depth = 0;

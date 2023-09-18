@@ -1,4 +1,4 @@
-use crate::Adverbs;
+use crate::{Adverbs, errors::ErrorKind};
 
  pub fn squash<'a>(actions: &'a Vec<crate::Verbs<'a>>) -> (Vec<&'a str>, Adverbs<'a>) {
 	let mut adverbs = Adverbs {
@@ -11,6 +11,7 @@ use crate::Adverbs;
 	let mut verbs: Vec<&str> = Vec::new();
 
 	for act in actions {
+		// someone tell me a better way to do this man
 		if let Some(path) = act.adverb.path {
 			adverbs.path = Some(path);
 		}
@@ -34,6 +35,8 @@ use crate::Adverbs;
 	(verbs, adverbs)
 }
 
-pub fn run(noun: &crate::Noun, verbs: &Vec<&str>, adverbs: &Adverbs) {
+pub fn run(noun: &crate::Noun, verbs: &Vec<&str>, adverbs: &Adverbs) -> Result<(), ErrorKind> {
 	println!("noun: {:?}\nverbs: {:?}\nadverbs: {:?}\n", noun, verbs, adverbs);
+
+	Ok(())
 }
