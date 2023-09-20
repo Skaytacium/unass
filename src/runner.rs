@@ -1,10 +1,10 @@
-use crate::{Adverbs, errors::ErrorKind};
+use crate::{errors::{Error, raise}, util, Adverbs};
 
- pub fn squash<'a>(actions: &'a Vec<crate::Verbs<'a>>) -> (Vec<&'a str>, Adverbs<'a>) {
+pub fn squash<'a>(actions: &'a Vec<crate::Verbs<'a>>) -> (Vec<&'a str>, Adverbs<'a>) {
 	let mut adverbs = Adverbs {
 		path: None,
 		branch: None,
-		arg: None
+		arg: None,
 	};
 
 	let mut defer = 0;
@@ -35,8 +35,25 @@ use crate::{Adverbs, errors::ErrorKind};
 	(verbs, adverbs)
 }
 
-pub fn run(noun: &crate::Noun, verbs: &Vec<&str>, adverbs: &Adverbs) -> Result<(), ErrorKind> {
-	println!("noun: {:?}\nverbs: {:?}\nadverbs: {:?}\n", noun, verbs, adverbs);
+pub fn run(noun: &crate::Noun, verbs: &Vec<&str>, adverbs: &Adverbs) -> Result<(), Error> {
+	if verbs.len() < 1 {
+		return Err(Error::Verbs);
+	}
 
+	if verbs.len() == 1 {
+		match verbs[0] {
+			"set" => {
+				match noun.noun {
+					"elevate" => {},
+					"store" => {},
+				 	_ => return Err(Error::Key),
+				}
+			},
+			"shell" => {},
+			_ => (),
+		}
+	}
+
+	util::print(noun, verbs, adverbs);
 	Ok(())
 }

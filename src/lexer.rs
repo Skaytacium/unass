@@ -1,6 +1,9 @@
 use logos::Logos;
 
 #[derive(Logos, Debug, PartialEq, Clone)]
+#[logos(skip r"#.+")]
+#[logos(skip " ")]
+#[logos(skip "\r")]
 pub enum Token<'a> {
 	#[token("\n")]
 	Line,
@@ -23,9 +26,4 @@ pub enum Token<'a> {
 	Noun(&'a str),
 	#[regex(r",[^\s#]+", |lex| &lex.slice()[1..])]
 	Adjective(&'a str),
-	#[error]
-	#[regex(r"#.+", logos::skip)]
-	#[token(" ", logos::skip)]
-	#[token("\r", logos::skip)]
-	Error
 }

@@ -1,11 +1,12 @@
-use errors::{add_error, ErrorKind};
+use errors::{raise, Error};
 use lexer::Token;
 use logos::Logos;
-use std::{io::LineWriter, path::PathBuf, println};
+use std::path::PathBuf;
 
 mod errors;
 mod lexer;
 mod runner;
+mod util;
 
 #[derive(Debug, Clone)]
 pub struct Adverbs<'a> {
@@ -58,7 +59,7 @@ fn main() {
 	match file {
 		Ok(store) => bytes = store,
 		Err(error) => {
-			add_error(error, "{script}", 0);
+			raise(error, 0, 0, "{script}");
 			std::process::exit(1);
 		}
 	}
@@ -67,12 +68,21 @@ fn main() {
 	let token_stream = Token::lexer(&source);
 
 	let mut lines = 1;
+	let mut chr = 1;
 	let mut depth = 0;
 	let mut resized = false;
 	let mut act: Vec<Verbs> = Vec::new();
 	let mut adjective: Option<&str> = None;
 
-	for (token, slice) in token_stream.spanned() {
+	for (ptoken, slice) in token_stream.spanned() {
+		if let Err(_) = ptoken {
+			raise(Error::Token, lines, slice.start - chr, &source[slice]);
+			break;
+		}
+		let token = ptoken.unwrap();
+		if matches!(adjective, Some(_)) && matches!(token, Token::Adjective(_)) {
+			raise(Error::Adjective, lines, slice.start - chr, adjective.unwrap());
+		}
 		if token != Token::Line && token != Token::Indent && !resized {
 			if depth == 0 {
 				act.clear()
@@ -85,6 +95,7 @@ fn main() {
 		match token {
 			Token::Line => {
 				// toggle for resizing (clearing) to happen only after indents
+				chr = slice.start;
 				resized = false;
 				lines += 1;
 				depth = 0;
@@ -100,16 +111,33 @@ fn main() {
 			}
 			Token::Noun(noun) => {
 				let (verbs, adverbs) = runner::squash(&act);
-				runner::run(&Noun { noun: noun, adj: adjective }, &verbs, &adverbs);
+				if let Err(err) = runner::run(
+					&Noun {
+						noun: noun,
+						adj: adjective,
+					},
+					&verbs,
+					&adverbs,
+				) {
+					raise(err, lines, slice.start - chr, &source[slice]);
+				}
 				adjective = None;
 			}
 			Token::Adjective(adj) => adjective = Some(adj),
 			Token::Shell(shell) => {
 				act[depth].verbs.push("shell");
 				let (verbs, adverbs) = runner::squash(&act);
-				runner::run(&Noun { noun: shell, adj: adjective }, &verbs, &adverbs);
-			},
-			Token::Error => add_error(ErrorKind::Token, &source[slice], lines)
+				if let Err(err) = runner::run(
+					&Noun {
+						noun: shell,
+						adj: adjective,
+					},
+					&verbs,
+					&adverbs,
+				) {
+					raise(err, lines, slice.start - chr, &source[slice]);
+				}
+			}
 		}
 	}
 }

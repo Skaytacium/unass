@@ -1,34 +1,35 @@
-# Average unass script
+# average unass script
 
-# Set is an internal verb, allows for easy expansion of the program and
+# "set" is an internal verb, allows for easy expansion of the program and
 # consistent syntax
 +set
-	# All adverbs (parameters that can change the functioning of a verb) are
+	# all adverbs (parameters that can change the functioning of a verb) are
 	# specified before the noun
 	"doas" elevate
 	~/.files store
 
-# These apply to all the following
+# these apply to all the following
 /opt +download +extract
 	dotnet ungoogled-chromium lua-lsp
 	@msi discord
 
-# Install will run at the end
+shiz
+
+# "install" will run at the end
 /usr/local/src +clone -install
 	tj/n dwt1/shell-color-scripts
-	# Build will run second last
+	# "build" will run second last
 	-build
 		Dr-Noob/cpufetch
 		@mac linux-on-mac/mbpfan jellyfin/jellyfin
 		@msi dudik/herbe OpenTabletDriver/OpenTabletDriver
-		# Until https://github.com/maciejhirsz/logos/issues/315#issuecomment-1598323246 doesn't happen,
+		# until https://github.com/maciejhirsz/logos/issues/315#issuecomment-1598323246 doesn't happen,
 		# unass is stuck with using the comma before instead of after the adjective.
 		+apply ,git://git.suckless.org/dwm dwm ,git://git.suckless.org/dmenu dmenu
 
 # This syntax is allowed
 ~/.local/share/nvim/site/pack/packer/start "--depth 1" +clone savq/paq-nvim
 
-# Nouns are only executed once
 +service alsa chronyd dcron tlp metalog postfix acpid sshd bluetoothd
 	@mac radeon-profile-daemon mbpfan
 	@msi cupsd
