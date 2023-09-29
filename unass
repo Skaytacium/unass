@@ -10,19 +10,17 @@
 
 # these apply to all the following
 /opt +download +extract
-	dotnet ungoogled-chromium lua-lsp
+	dotnet ungoogled-chromium
 	@msi discord
-
-shiz
 
 # "install" will run at the end
 /usr/local/src +clone -install
 	tj/n dwt1/shell-color-scripts
 	# "build" will run second last
 	-build
-		Dr-Noob/cpufetch
+		Dr-Noob/cpufetch lua-lsp
 		@mac linux-on-mac/mbpfan jellyfin/jellyfin
-		@msi dudik/herbe OpenTabletDriver/OpenTabletDriver
+		@msi OpenTabletDriver/OpenTabletDriver
 		# until https://github.com/maciejhirsz/logos/issues/315#issuecomment-1598323246 doesn't happen,
 		# unass is stuck with using the comma before instead of after the adjective.
 		+apply ,git://git.suckless.org/dwm dwm ,git://git.suckless.org/dmenu dmenu

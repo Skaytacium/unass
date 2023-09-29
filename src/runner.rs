@@ -1,4 +1,6 @@
-use crate::{errors::{Error, raise}, util, Adverbs};
+use std::path::PathBuf;
+
+use crate::{errors::Error, util, Adverbs, Config};
 
 pub fn squash<'a>(actions: &'a Vec<crate::Verbs<'a>>) -> (Vec<&'a str>, Adverbs<'a>) {
 	let mut adverbs = Adverbs {
@@ -23,10 +25,8 @@ pub fn squash<'a>(actions: &'a Vec<crate::Verbs<'a>>) -> (Vec<&'a str>, Adverbs<
 		}
 
 		for (i, verb) in act.verbs.iter().enumerate() {
-			if i < act.defer {
-				verbs.insert(defer, verb);
-			} else {
-				verbs.insert(defer, verb);
+			verbs.insert(defer, verb);
+			if i >= act.defer {
 				defer += 1;
 			}
 		}
@@ -35,7 +35,7 @@ pub fn squash<'a>(actions: &'a Vec<crate::Verbs<'a>>) -> (Vec<&'a str>, Adverbs<
 	(verbs, adverbs)
 }
 
-pub fn run(noun: &crate::Noun, verbs: &Vec<&str>, adverbs: &Adverbs) -> Result<(), Error> {
+pub fn run<'a>(noun: &crate::Noun, verbs: &Vec<&'a str>, adverbs: &Adverbs<'a>, /* config: &mut Config<'a> */) -> Result<(), Error> {
 	if verbs.len() < 1 {
 		return Err(Error::Verbs);
 	}
@@ -44,8 +44,23 @@ pub fn run(noun: &crate::Noun, verbs: &Vec<&str>, adverbs: &Adverbs) -> Result<(
 		match verbs[0] {
 			"set" => {
 				match noun.noun {
-					"elevate" => {},
-					"store" => {},
+					"elevate" => {
+						if let Some(arg) = adverbs.arg {
+							// config.elevate = arg;
+						} else {
+							return Err(Error::Argument);
+						}
+					},
+					"store" => {
+						if let Some(path) = adverbs.path {
+							// config.store = PathBuf::from(path);
+							// if config.store.try_exists().expect("error checking path") {
+							// 	return Err(Error::Exists)
+							// }
+						} else {
+							return Err(Error::Path);
+						}
+					},
 				 	_ => return Err(Error::Key),
 				}
 			},

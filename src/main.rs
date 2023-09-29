@@ -27,8 +27,8 @@ pub struct Noun<'a> {
 	pub adj: Option<&'a str>,
 }
 
-pub struct Config {
-	elevate: Option<String>,
+pub struct Config<'a> {
+	elevate: Option<&'a str>,
 	store: Option<PathBuf>,
 }
 
@@ -110,7 +110,7 @@ fn main() {
 				act[depth].defer += 1;
 			}
 			Token::Noun(noun) => {
-				let (verbs, adverbs) = runner::squash(&act);
+				let (verbs, adverbs) = runner::squash(&mut act);
 				if let Err(err) = runner::run(
 					&Noun {
 						noun: noun,
@@ -118,6 +118,7 @@ fn main() {
 					},
 					&verbs,
 					&adverbs,
+					// &mut config,
 				) {
 					raise(err, lines, slice.start - chr, &source[slice]);
 				}
@@ -126,7 +127,12 @@ fn main() {
 			Token::Adjective(adj) => adjective = Some(adj),
 			Token::Shell(shell) => {
 				act[depth].verbs.push("shell");
+				println!("{} {:p}", act[depth].verbs[0], act[depth].verbs[0]);
 				let (verbs, adverbs) = runner::squash(&act);
+				println!("{} {:p}", act[depth].verbs[0], act[depth].verbs[0]);
+				println!("{} {:p}", verbs[0], verbs[0]);
+				println!("{:p}", &source);
+				config.elevate = Some(verbs[0]);
 				if let Err(err) = runner::run(
 					&Noun {
 						noun: shell,
@@ -134,6 +140,7 @@ fn main() {
 					},
 					&verbs,
 					&adverbs,
+					// &mut config,
 				) {
 					raise(err, lines, slice.start - chr, &source[slice]);
 				}

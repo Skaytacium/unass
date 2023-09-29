@@ -18,6 +18,9 @@ pub enum Error {
 	Key,
 	Adjective,
 	Verbs,
+	Argument,
+	Path,
+	Exists,
 }
 
 impl fmt::Display for Error {
@@ -27,6 +30,9 @@ impl fmt::Display for Error {
 			Error::Adjective => f.write_str("adjective dropped"),
 			Error::Key => f.write_str("invalid key"),
 			Error::Verbs => f.write_str("no verbs found"),
+			Error::Argument => f.write_str("an argument is mandatory"),
+			Error::Path => f.write_str("path is mandatory"),
+			Error::Exists => f.write_str("path doesn't exist"),
 		}
 	}
 }
@@ -45,9 +51,8 @@ impl SeverityLevel for std::io::Error {
 }
 impl StdError for Error {}
 
-// exit by yourself if the error is fatal, since handling this here would cause
-// a !|() return type, which isn't possible
-pub fn raise(error: (impl StdError + SeverityLevel), line: usize, chr: usize, word: &str) -> Result<(), !> {
+// will shift to Result<(), !> when ! gets standardized, for now pray your error isn't fatal
+pub fn raise(error: (impl StdError + SeverityLevel), line: usize, chr: usize, word: &str) /* -> Result<(), !> */ {
 	match error.severity() {
 		Severity::Fatal => {
 			println!("{}", format!("fatal:{}:{}:\"{}\":{}", line, chr, word, error).on_red().bold().black());
@@ -57,6 +62,4 @@ pub fn raise(error: (impl StdError + SeverityLevel), line: usize, chr: usize, wo
 			println!("{}", format!("warn:{}:{}:\"{}\":{}", line, chr, word, error).on_yellow().bold().black());
 		}
 	}
-	
-	Ok(())
 }

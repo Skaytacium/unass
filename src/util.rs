@@ -1,10 +1,8 @@
 use colored::Colorize;
 
 pub fn print(noun: &crate::Noun, verbs: &Vec<&str>, adverbs: &crate::Adverbs) {
-	let mut out = String::new();
-
-	out = format!("{}", verbs.join(" & ").red());
-	out = format!("{} {}", out, noun.noun.green());
+	let mut out = format!("{} {}", verbs.join(" & ").red(), noun.noun.green());
+	// someone tell me a better way to do this man 2
 	if let Some(adj) = noun.adj {
 		out = format!("{} {} {}", out, "as".italic().bold(), adj.blue());
 	}
