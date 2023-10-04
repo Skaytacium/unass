@@ -1,5 +1,8 @@
-# unass
+# unass (archived)
 ## ugh, not another system syncer
+### wait, archived? again?
+sometimes you should just [cut your losses](https://github.com/void-linux/void-packages/blob/master/Manual.md#Introduction)
+
 ### what?
 another system syncer, script based
 
